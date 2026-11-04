@@ -1,0 +1,36 @@
+EXPERIMENT 3: DDL AND INTEGRITY CONSTRAINTS
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 3: DDL and integrity constraints
+CREATE DATABASE college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  email VARCHAR(60) UNIQUE,
+  age INT CHECK (age >= 16),
+  dept_id INT,
+  status VARCHAR(15) DEFAULT 'Active',
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+ALTER TABLE student ADD phone VARCHAR(15);
+ALTER TABLE student MODIFY student_name VARCHAR(60);
+ALTER TABLE student DROP COLUMN phone;
+
+CREATE TABLE student_test (
+  id INT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL
+);
+
+RENAME TABLE student_test TO learner_test;
+TRUNCATE TABLE learner_test;
+DROP TABLE learner_test;
+
+SHOW TABLES;

@@ -1,0 +1,21 @@
+EXPERIMENT 5: DCL (GRANT AND REVOKE)
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 5: DCL commands
+CREATE USER 'college_user'@'localhost'
+IDENTIFIED BY 'College123';
+
+GRANT SELECT, INSERT, UPDATE
+ON college.student
+TO 'college_user'@'localhost';
+
+SHOW GRANTS FOR 'college_user'@'localhost';
+
+REVOKE INSERT, UPDATE
+ON college.student
+FROM 'college_user'@'localhost';
+
+SHOW GRANTS FOR 'college_user'@'localhost';
+
+-- Optional cleanup:
+-- DROP USER 'college_user'@'localhost';

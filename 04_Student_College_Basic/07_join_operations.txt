@@ -1,0 +1,41 @@
+EXPERIMENT 7: JOIN OPERATIONS
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 7: Join operations
+USE college;
+
+-- INNER JOIN / Equijoin
+SELECT student.student_name, department.dept_name
+FROM student
+INNER JOIN department
+ON student.dept_id = department.dept_id;
+
+-- Non-equijoin
+SELECT student.student_name, student.age, department.dept_name
+FROM student
+JOIN department
+ON student.age >= 20;
+
+-- Self-join
+SELECT a.student_name AS student1, b.student_name AS student2
+FROM student a
+JOIN student b
+ON a.dept_id = b.dept_id
+AND a.roll_no < b.roll_no;
+
+-- LEFT OUTER JOIN
+SELECT student.student_name, department.dept_name
+FROM student
+LEFT JOIN department
+ON student.dept_id = department.dept_id;
+
+-- RIGHT OUTER JOIN
+SELECT student.student_name, department.dept_name
+FROM student
+RIGHT JOIN department
+ON student.dept_id = department.dept_id;
+
+-- CROSS JOIN
+SELECT student.student_name, department.dept_name
+FROM student
+CROSS JOIN department;

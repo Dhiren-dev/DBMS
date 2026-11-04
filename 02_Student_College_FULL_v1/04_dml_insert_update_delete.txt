@@ -1,0 +1,37 @@
+EXPERIMENT 4: DML — INSERT, UPDATE, DELETE
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 4: DML commands
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT,
+  dept_id INT,
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+INSERT INTO department VALUES
+(1, 'Computer'), (2, 'IT'), (3, 'Mechanical');
+
+INSERT INTO student VALUES
+(101, 'Amit', 20, 1), (102, 'Neha', 21, 2),
+(103, 'Rahul', 19, 1), (104, 'Kiran', 20, 3);
+
+INSERT INTO student (roll_no, student_name, age, dept_id)
+VALUES (105, 'Sonal', 22, 2);
+
+SELECT * FROM student;
+
+UPDATE student SET age = 23 WHERE roll_no = 105;
+SELECT * FROM student;
+
+DELETE FROM student WHERE roll_no = 103;
+SELECT * FROM student;

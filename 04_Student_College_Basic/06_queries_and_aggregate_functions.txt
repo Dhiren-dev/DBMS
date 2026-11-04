@@ -1,0 +1,39 @@
+EXPERIMENT 6: SQL QUERIES AND AGGREGATE FUNCTIONS
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 6: Basic SELECT and aggregate functions
+USE college;
+
+SELECT * FROM student;
+
+SELECT student_name, age
+FROM student
+WHERE age >= 20;
+
+SELECT DISTINCT dept_id
+FROM student;
+
+SELECT *
+FROM student
+ORDER BY student_name;
+
+SELECT COUNT(*) AS total_students
+FROM student;
+
+SELECT AVG(age) AS average_age
+FROM student;
+
+SELECT MIN(age) AS youngest
+FROM student;
+
+SELECT MAX(age) AS oldest
+FROM student;
+
+SELECT dept_id, COUNT(*) AS student_count
+FROM student
+GROUP BY dept_id;
+
+SELECT dept_id, AVG(age) AS average_age
+FROM student
+GROUP BY dept_id
+HAVING AVG(age) >= 20;

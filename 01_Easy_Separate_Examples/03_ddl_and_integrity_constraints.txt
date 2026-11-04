@@ -1,0 +1,53 @@
+EXPERIMENT 3: DDL AND INTEGRITY CONSTRAINTS (SHOP)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 3: DDL and constraints using a Shop database
+CREATE DATABASE IF NOT EXISTS shop;
+USE shop;
+
+CREATE TABLE product (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(40) NOT NULL,
+  price DECIMAL(8,2) CHECK (price > 0),
+  product_code VARCHAR(20) UNIQUE,
+  stock INT DEFAULT 0
+);
+
+CREATE TABLE customer (
+  customer_id INT PRIMARY KEY,
+  customer_name VARCHAR(40) NOT NULL,
+  email VARCHAR(60) UNIQUE
+);
+
+INSERT INTO product VALUES
+(1, 'Pen', 10.00, 'PEN01', 100),
+(2, 'Notebook', 50.00, 'NOTE01', 60);
+
+INSERT INTO customer VALUES
+(1, 'Amit', 'amit@example.com'),
+(2, 'Neha', 'neha@example.com');
+
+-- ALTER: add column
+ALTER TABLE product ADD category VARCHAR(30);
+
+-- ALTER: modify column
+ALTER TABLE product MODIFY product_name VARCHAR(60) NOT NULL;
+
+-- ALTER: add constraint
+ALTER TABLE product ADD CONSTRAINT chk_stock CHECK (stock >= 0);
+
+-- ALTER: drop constraint
+ALTER TABLE product DROP CHECK chk_stock;
+
+-- ALTER: drop column
+ALTER TABLE product DROP COLUMN category;
+
+-- Test RENAME, TRUNCATE and DROP
+CREATE TABLE test_item (id INT PRIMARY KEY, item_name VARCHAR(30));
+INSERT INTO test_item VALUES (1, 'Sample');
+RENAME TABLE test_item TO sample_item;
+TRUNCATE TABLE sample_item;
+DROP TABLE sample_item;
+
+SELECT * FROM product;
+SHOW TABLES;

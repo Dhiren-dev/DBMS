@@ -1,0 +1,49 @@
+EXPERIMENT 9: TRANSACTIONS AND CONCURRENCY (WALLET)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 9: Transaction, COMMIT, ROLLBACK and locking
+CREATE DATABASE IF NOT EXISTS wallet_db;
+USE wallet_db;
+
+CREATE TABLE wallet (
+  wallet_id INT PRIMARY KEY,
+  owner_name VARCHAR(40) NOT NULL,
+  balance INT NOT NULL
+) ENGINE = InnoDB;
+
+INSERT INTO wallet VALUES
+(1, 'Amit', 5000),
+(2, 'Neha', 7000);
+
+SELECT * FROM wallet;
+
+-- Transaction: transfer 500 from Amit to Neha
+START TRANSACTION;
+UPDATE wallet SET balance = balance - 500 WHERE wallet_id = 1;
+UPDATE wallet SET balance = balance + 500 WHERE wallet_id = 2;
+SELECT * FROM wallet;
+COMMIT;
+SELECT * FROM wallet;
+
+-- Demonstrate ROLLBACK: temporary change will be cancelled
+START TRANSACTION;
+UPDATE wallet SET balance = balance - 1000 WHERE wallet_id = 1;
+SELECT * FROM wallet;
+ROLLBACK;
+SELECT * FROM wallet;
+
+-- Concurrency / row lock demonstration (Session 1)
+START TRANSACTION;
+SELECT * FROM wallet
+WHERE wallet_id = 1
+FOR UPDATE;
+
+-- Keep Session 1 open. In Session 2, run:
+-- UPDATE wallet SET balance = balance + 100 WHERE wallet_id = 1;
+-- Session 2 waits while Session 1 holds the lock.
+-- Return to Session 1 and release the lock:
+COMMIT;
+
+-- Session 2 can now finish its UPDATE.
+-- Verify:
+SELECT * FROM wallet;

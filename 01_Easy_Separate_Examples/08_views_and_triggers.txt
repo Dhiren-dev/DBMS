@@ -1,0 +1,65 @@
+EXPERIMENT 8: VIEWS AND TRIGGERS (PRODUCT AUDIT)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 8: View and triggers in a Store database
+CREATE DATABASE IF NOT EXISTS store;
+USE store;
+
+CREATE TABLE product (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(40) NOT NULL,
+  price INT
+);
+
+INSERT INTO product VALUES
+(1, 'Pen', 10),
+(2, 'Notebook', 50),
+(3, 'Bag', 500);
+
+-- Create a simple view
+CREATE VIEW product_view AS
+SELECT product_id, product_name, price
+FROM product;
+
+SELECT * FROM product_view;
+
+-- Log table to record changes
+CREATE TABLE product_log (
+  log_id INT AUTO_INCREMENT PRIMARY KEY,
+  action_name VARCHAR(20),
+  product_id INT,
+  action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DELIMITER //
+
+CREATE TRIGGER product_after_insert
+AFTER INSERT ON product FOR EACH ROW
+BEGIN
+  INSERT INTO product_log (action_name, product_id)
+  VALUES ('INSERT', NEW.product_id);
+END//
+
+CREATE TRIGGER product_after_update
+AFTER UPDATE ON product FOR EACH ROW
+BEGIN
+  INSERT INTO product_log (action_name, product_id)
+  VALUES ('UPDATE', NEW.product_id);
+END//
+
+CREATE TRIGGER product_after_delete
+AFTER DELETE ON product FOR EACH ROW
+BEGIN
+  INSERT INTO product_log (action_name, product_id)
+  VALUES ('DELETE', OLD.product_id);
+END//
+
+DELIMITER ;
+
+-- Test all three triggers
+INSERT INTO product VALUES (4, 'Pencil', 5);
+UPDATE product SET price = 6 WHERE product_id = 4;
+DELETE FROM product WHERE product_id = 4;
+
+SELECT * FROM product_log;
+SHOW TRIGGERS;

@@ -1,0 +1,27 @@
+EXPERIMENT 4: DML (INSERT, UPDATE, DELETE)
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 4: DML commands
+USE college;
+
+INSERT INTO department (dept_id, dept_name)
+VALUES (1, 'Computer'), (2, 'IT');
+
+INSERT INTO student (roll_no, student_name, email, age, dept_id)
+VALUES
+(101, 'Amit', 'amit@example.com', 20, 1),
+(102, 'Neha', 'neha@example.com', 21, 2),
+(103, 'Rahul', 'rahul@example.com', 19, 1);
+
+SELECT * FROM student;
+
+UPDATE student
+SET age = 22
+WHERE roll_no = 102;
+
+SELECT * FROM student;
+
+DELETE FROM student
+WHERE roll_no = 103;
+
+SELECT * FROM student;

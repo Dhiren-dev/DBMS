@@ -1,0 +1,35 @@
+EXPERIMENT 9: TRANSACTIONS AND CONCURRENCY CONTROL
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 9: Transaction and concurrency control
+USE college;
+
+START TRANSACTION;
+INSERT INTO student (roll_no, student_name, age, dept_id)
+VALUES (105, 'Sonal', 20, 1);
+UPDATE student
+SET age = 21
+WHERE roll_no = 105;
+SELECT * FROM student WHERE roll_no = 105;
+COMMIT;
+
+-- Demonstrate rollback
+START TRANSACTION;
+UPDATE student
+SET age = 25
+WHERE roll_no = 105;
+SELECT * FROM student WHERE roll_no = 105;
+ROLLBACK;
+SELECT * FROM student WHERE roll_no = 105;
+
+-- Locking example (run in Session 1)
+START TRANSACTION;
+SELECT * FROM student
+WHERE roll_no = 105
+FOR UPDATE;
+
+-- In Session 1, finish with:
+-- COMMIT;
+-- In Session 2, try updating the same row while Session 1
+-- holds the lock. It waits until Session 1 commits.
+-- UPDATE student SET age = 22 WHERE roll_no = 105;

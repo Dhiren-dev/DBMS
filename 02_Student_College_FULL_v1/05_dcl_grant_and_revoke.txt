@@ -1,0 +1,38 @@
+EXPERIMENT 5: DCL — GRANT AND REVOKE
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 5: DCL commands
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT,
+  dept_id INT
+);
+
+INSERT INTO department VALUES (1, 'Computer'), (2, 'IT');
+INSERT INTO student VALUES (101, 'Amit', 20, 1), (102, 'Neha', 21, 2);
+
+-- User creation may require administrator permission
+CREATE USER IF NOT EXISTS 'college_user'@'localhost'
+IDENTIFIED BY 'College123';
+
+GRANT SELECT, INSERT, UPDATE
+ON college.student TO 'college_user'@'localhost';
+
+SHOW GRANTS FOR 'college_user'@'localhost';
+
+REVOKE INSERT, UPDATE
+ON college.student FROM 'college_user'@'localhost';
+
+SHOW GRANTS FOR 'college_user'@'localhost';
+
+-- Optional cleanup after practical:
+-- DROP USER 'college_user'@'localhost';

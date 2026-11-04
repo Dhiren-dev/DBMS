@@ -1,0 +1,40 @@
+EXPERIMENT 2: ER/EER TO RELATIONAL SCHEMA
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 2: Relational schema for Student–College case study
+CREATE DATABASE college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT,
+  dept_id INT,
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+CREATE TABLE course (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(50) NOT NULL,
+  credits INT
+);
+
+CREATE TABLE enrollment (
+  roll_no INT,
+  course_id INT,
+  marks INT,
+  PRIMARY KEY (roll_no, course_id),
+  FOREIGN KEY (roll_no) REFERENCES student(roll_no),
+  FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+-- Relational schema:
+-- DEPARTMENT(dept_id PK, dept_name)
+-- STUDENT(roll_no PK, student_name, age, dept_id FK)
+-- COURSE(course_id PK, course_name, credits)
+-- ENROLLMENT(roll_no PK/FK, course_id PK/FK, marks)

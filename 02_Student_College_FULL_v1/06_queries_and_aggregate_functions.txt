@@ -1,0 +1,53 @@
+EXPERIMENT 6: SQL QUERIES AND AGGREGATE FUNCTIONS
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 6: SELECT queries and aggregate functions
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT,
+  dept_id INT,
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+INSERT INTO department VALUES
+(1, 'Computer'), (2, 'IT'), (3, 'Mechanical');
+
+INSERT INTO student VALUES
+(101, 'Amit', 20, 1), (102, 'Neha', 21, 2),
+(103, 'Rahul', 19, 1), (104, 'Kiran', 20, 3),
+(105, 'Sonal', 22, 2);
+
+SELECT * FROM student;
+SELECT student_name, age FROM student;
+SELECT * FROM student WHERE age >= 20;
+SELECT * FROM student WHERE age >= 20 AND dept_id = 1;
+SELECT * FROM student WHERE dept_id = 1 OR dept_id = 2;
+SELECT * FROM student WHERE age BETWEEN 19 AND 21;
+SELECT * FROM student WHERE dept_id IN (1, 2);
+SELECT * FROM student WHERE student_name LIKE 'A%';
+
+SELECT DISTINCT dept_id FROM student;
+SELECT * FROM student ORDER BY student_name ASC;
+SELECT * FROM student ORDER BY age DESC;
+
+SELECT COUNT(*) AS total_students FROM student;
+SELECT SUM(age) AS total_age FROM student;
+SELECT AVG(age) AS average_age FROM student;
+SELECT MIN(age) AS minimum_age FROM student;
+SELECT MAX(age) AS maximum_age FROM student;
+
+SELECT dept_id, COUNT(*) AS student_count
+FROM student GROUP BY dept_id;
+
+SELECT dept_id, AVG(age) AS average_age
+FROM student GROUP BY dept_id
+HAVING AVG(age) >= 20;

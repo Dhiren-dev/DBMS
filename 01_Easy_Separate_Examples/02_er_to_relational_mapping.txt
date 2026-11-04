@@ -1,0 +1,50 @@
+EXPERIMENT 2: ER/EER TO RELATIONAL SCHEMA (LIBRARY)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 2: Map a Library ER model into relations
+CREATE DATABASE IF NOT EXISTS library;
+USE library;
+
+CREATE TABLE member (
+  member_id INT PRIMARY KEY,
+  member_name VARCHAR(40) NOT NULL,
+  phone VARCHAR(15)
+);
+
+CREATE TABLE book (
+  book_id INT PRIMARY KEY,
+  book_name VARCHAR(50) NOT NULL,
+  author VARCHAR(40)
+);
+
+-- One member can borrow many books over time.
+-- BORROW is a relationship table connecting MEMBER and BOOK.
+CREATE TABLE borrow (
+  borrow_id INT PRIMARY KEY,
+  member_id INT,
+  book_id INT,
+  borrow_date DATE,
+  FOREIGN KEY (member_id) REFERENCES member(member_id),
+  FOREIGN KEY (book_id) REFERENCES book(book_id)
+);
+
+INSERT INTO member VALUES
+(1, 'Asha', '9876543210'),
+(2, 'Ravi', '9876501234');
+
+INSERT INTO book VALUES
+(101, 'Wings of Fire', 'A. P. J. Abdul Kalam'),
+(102, 'The Alchemist', 'Paulo Coelho');
+
+INSERT INTO borrow VALUES
+(1, 1, 101, '2026-10-01'),
+(2, 2, 102, '2026-10-02');
+
+-- Relational schema:
+-- MEMBER(member_id PK, member_name, phone)
+-- BOOK(book_id PK, book_name, author)
+-- BORROW(borrow_id PK, member_id FK, book_id FK, borrow_date)
+
+SELECT * FROM member;
+SELECT * FROM book;
+SELECT * FROM borrow;

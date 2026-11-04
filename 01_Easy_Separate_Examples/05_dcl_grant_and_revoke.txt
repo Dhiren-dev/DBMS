@@ -1,0 +1,35 @@
+EXPERIMENT 5: DCL (USER PERMISSIONS)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 5: GRANT and REVOKE on a School database
+CREATE DATABASE IF NOT EXISTS school;
+USE school;
+
+CREATE TABLE teacher (
+  teacher_id INT PRIMARY KEY,
+  teacher_name VARCHAR(40) NOT NULL,
+  subject VARCHAR(30)
+);
+
+INSERT INTO teacher VALUES
+(1, 'Meena', 'Maths'),
+(2, 'Raj', 'Science');
+
+-- User creation usually requires MySQL administrator privileges
+CREATE USER IF NOT EXISTS 'school_user'@'localhost'
+IDENTIFIED BY 'School123';
+
+-- Give permission to view and add teacher records
+GRANT SELECT, INSERT
+ON school.teacher TO 'school_user'@'localhost';
+
+SHOW GRANTS FOR 'school_user'@'localhost';
+
+-- Remove INSERT permission
+REVOKE INSERT
+ON school.teacher FROM 'school_user'@'localhost';
+
+SHOW GRANTS FOR 'school_user'@'localhost';
+
+-- Optional: delete this user after the practical
+-- DROP USER 'school_user'@'localhost';

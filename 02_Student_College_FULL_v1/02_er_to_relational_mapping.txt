@@ -1,0 +1,56 @@
+EXPERIMENT 2: ER/EER TO RELATIONAL SCHEMA
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 2: Map the ER/EER model to relations
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT,
+  dept_id INT,
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+CREATE TABLE course (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(50) NOT NULL,
+  credits INT
+);
+
+-- M:N relationship between STUDENT and COURSE
+CREATE TABLE enrollment (
+  roll_no INT,
+  course_id INT,
+  marks INT,
+  PRIMARY KEY (roll_no, course_id),
+  FOREIGN KEY (roll_no) REFERENCES student(roll_no),
+  FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+INSERT INTO department VALUES (1, 'Computer'), (2, 'IT');
+
+INSERT INTO student VALUES
+(101, 'Amit', 20, 1), (102, 'Neha', 21, 2), (103, 'Rahul', 19, 1);
+
+INSERT INTO course VALUES (11, 'DBMS', 4), (12, 'Python', 3);
+
+INSERT INTO enrollment VALUES
+(101, 11, 85), (101, 12, 78), (102, 11, 90);
+
+-- Schema:
+-- DEPARTMENT(dept_id PK, dept_name)
+-- STUDENT(roll_no PK, student_name, age, dept_id FK)
+-- COURSE(course_id PK, course_name, credits)
+-- ENROLLMENT(roll_no PK/FK, course_id PK/FK, marks)
+
+SELECT * FROM department;
+SELECT * FROM student;
+SELECT * FROM course;
+SELECT * FROM enrollment;

@@ -1,0 +1,61 @@
+EXPERIMENT 1: STUDENT–COLLEGE DATABASE
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 1: Create the complete Student–College database
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE,
+  hod_name VARCHAR(50)
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  age INT NOT NULL,
+  email VARCHAR(60) UNIQUE,
+  dept_id INT NOT NULL,
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+CREATE TABLE course (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(50) NOT NULL,
+  credits INT NOT NULL
+);
+
+CREATE TABLE enrollment (
+  roll_no INT,
+  course_id INT,
+  marks INT,
+  PRIMARY KEY (roll_no, course_id),
+  FOREIGN KEY (roll_no) REFERENCES student(roll_no),
+  FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+INSERT INTO department VALUES
+(1, 'Computer', 'Patil'),
+(2, 'Information Technology', 'Shah'),
+(3, 'Mechanical', 'Joshi');
+
+INSERT INTO student VALUES
+(101, 'Amit', 20, 'amit@example.com', 1),
+(102, 'Neha', 21, 'neha@example.com', 2),
+(103, 'Rahul', 19, 'rahul@example.com', 1),
+(104, 'Kiran', 20, 'kiran@example.com', 3);
+
+INSERT INTO course VALUES
+(11, 'DBMS', 4),
+(12, 'Python', 3),
+(13, 'Web Technology', 3);
+
+INSERT INTO enrollment VALUES
+(101, 11, 85), (101, 12, 78), (102, 11, 90),
+(103, 13, 74), (104, 12, 81);
+
+SELECT * FROM department;
+SELECT * FROM student;
+SELECT * FROM course;
+SELECT * FROM enrollment;

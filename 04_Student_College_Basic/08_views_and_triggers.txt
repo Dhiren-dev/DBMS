@@ -1,0 +1,59 @@
+EXPERIMENT 8: VIEWS AND TRIGGERS
+MySQL 8.0+ • Beginner-friendly example • Run in MySQL Workbench
+
+-- Experiment 8: Create and query a view
+USE college;
+
+CREATE VIEW student_view AS
+SELECT roll_no, student_name, dept_id
+FROM student;
+
+SELECT * FROM student_view;
+
+-- Create a log table
+CREATE TABLE student_log (
+  log_id INT AUTO_INCREMENT PRIMARY KEY,
+  action_name VARCHAR(20),
+  roll_no INT,
+  action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- AFTER INSERT trigger
+DELIMITER //
+CREATE TRIGGER student_after_insert
+AFTER INSERT ON student
+FOR EACH ROW
+BEGIN
+  INSERT INTO student_log (action_name, roll_no)
+  VALUES ('INSERT', NEW.roll_no);
+END//
+
+-- AFTER UPDATE trigger
+CREATE TRIGGER student_after_update
+AFTER UPDATE ON student
+FOR EACH ROW
+BEGIN
+  INSERT INTO student_log (action_name, roll_no)
+  VALUES ('UPDATE', NEW.roll_no);
+END//
+
+-- AFTER DELETE trigger
+CREATE TRIGGER student_after_delete
+AFTER DELETE ON student
+FOR EACH ROW
+BEGIN
+  INSERT INTO student_log (action_name, roll_no)
+  VALUES ('DELETE', OLD.roll_no);
+END//
+DELIMITER ;
+
+-- Test and view trigger log
+INSERT INTO student (roll_no, student_name, age, dept_id)
+VALUES (104, 'Kiran', 20, 1);
+
+UPDATE student SET age = 21 WHERE roll_no = 104;
+
+DELETE FROM student WHERE roll_no = 104;
+
+SELECT * FROM student_log;
+SHOW TRIGGERS;

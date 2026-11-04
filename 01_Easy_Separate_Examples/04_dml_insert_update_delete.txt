@@ -1,0 +1,34 @@
+EXPERIMENT 4: DML (BANK ACCOUNT)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 4: INSERT, UPDATE and DELETE in a Bank database
+CREATE DATABASE IF NOT EXISTS bank;
+USE bank;
+
+CREATE TABLE account (
+  account_no INT PRIMARY KEY,
+  holder_name VARCHAR(40) NOT NULL,
+  balance DECIMAL(10,2) DEFAULT 0
+);
+
+INSERT INTO account VALUES
+(1001, 'Amit', 5000.00),
+(1002, 'Neha', 8000.00),
+(1003, 'Ravi', 3000.00);
+
+SELECT * FROM account;
+
+-- INSERT a new account
+INSERT INTO account VALUES (1004, 'Kiran', 4500.00);
+SELECT * FROM account;
+
+-- UPDATE balance
+UPDATE account
+SET balance = balance + 1000
+WHERE account_no = 1004;
+SELECT * FROM account;
+
+-- DELETE an account record
+DELETE FROM account
+WHERE account_no = 1003;
+SELECT * FROM account;

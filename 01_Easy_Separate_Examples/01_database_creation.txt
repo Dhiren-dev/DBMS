@@ -1,0 +1,20 @@
+EXPERIMENT 1: BASIC DATABASE CREATION (LIBRARY)
+Complete independent practical • MySQL 8.0+ • Database, tables and sample records included
+
+-- EXPERIMENT 1: Create a simple Library database
+CREATE DATABASE IF NOT EXISTS library;
+USE library;
+
+CREATE TABLE book (
+  book_id INT PRIMARY KEY,
+  book_name VARCHAR(50) NOT NULL,
+  author VARCHAR(40),
+  price INT
+);
+
+INSERT INTO book VALUES
+(1, 'Wings of Fire', 'A. P. J. Abdul Kalam', 250),
+(2, 'The Alchemist', 'Paulo Coelho', 300),
+(3, 'Ikigai', 'Hector Garcia', 200);
+
+SELECT * FROM book;

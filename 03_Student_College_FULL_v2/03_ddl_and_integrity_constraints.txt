@@ -1,0 +1,46 @@
+EXPERIMENT 3: DDL AND INTEGRITY CONSTRAINTS
+Self-contained SQL practical • MySQL 8.0+ • Create database, tables and sample data included
+
+-- EXPERIMENT 3: DDL and integrity constraints
+CREATE DATABASE IF NOT EXISTS college;
+USE college;
+
+CREATE TABLE department (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE student (
+  roll_no INT PRIMARY KEY,
+  student_name VARCHAR(50) NOT NULL,
+  email VARCHAR(60) UNIQUE,
+  age INT CHECK (age >= 16),
+  dept_id INT,
+  status VARCHAR(15) DEFAULT 'Active',
+  FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+INSERT INTO department VALUES (1, 'Computer'), (2, 'IT');
+
+INSERT INTO student (roll_no, student_name, email, age, dept_id)
+VALUES (101, 'Amit', 'amit@example.com', 20, 1),
+ (102, 'Neha', 'neha@example.com', 21, 2);
+
+ALTER TABLE student ADD phone VARCHAR(15);
+ALTER TABLE student MODIFY student_name VARCHAR(60) NOT NULL;
+ALTER TABLE student ADD CONSTRAINT chk_student_age CHECK (age >= 16);
+ALTER TABLE student DROP CHECK chk_student_age;
+ALTER TABLE student DROP COLUMN phone;
+
+CREATE TABLE student_test (
+  test_id INT PRIMARY KEY,
+  test_name VARCHAR(30) NOT NULL
+);
+
+INSERT INTO student_test VALUES (1, 'Sample');
+RENAME TABLE student_test TO learner_test;
+TRUNCATE TABLE learner_test;
+DROP TABLE learner_test;
+
+SHOW TABLES;
+SELECT * FROM student;
